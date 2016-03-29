@@ -1,19 +1,32 @@
 # le: means simp`Le`
 Simplest shell script for LetsEncrypt free Certificate client
 
-Pure written in bash, no dependencies to python , acme-tiny or LetsEncrypt official client.
+Simple and Powerful, you only need 3 minutes to learn.
+
+Pure written in bash, no dependencies to python, acme-tiny or LetsEncrypt official client.
 Just one script, to issue, renew your certificates automatically.
 
-Probably it's the smallest&easiest&smartest shell script to automatically  issue&renew the free certificates from LetsEncrypt.
+Probably it's the smallest&easiest&smartest shell script to automatically issue & renew the free certificates from LetsEncrypt.
 
-Do NOT require to be `root/sudoer`.
+NOT require to be `root/sudoer`.
 
 #Tested OS
-1. Ubuntu/Debian.
-2. CentOS
-3. Windows (cygwin with curl, openssl and crontab included)
-4. FreeBSD with bash
+1. Ubuntu [![](https://cdn.rawgit.com/Neilpang/letest/master/status/ubuntu-latest.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+2. Debian [![](https://cdn.rawgit.com/Neilpang/letest/master/status/debian-latest.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+3. CentOS [![](https://cdn.rawgit.com/Neilpang/letest/master/status/centos-latest.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+4. Windows (cygwin with curl, openssl and crontab included) [![](https://cdn.rawgit.com/Neilpang/letest/master/status/windows.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+5. FreeBSD with bash [![](https://cdn.rawgit.com/Neilpang/letest/master/status/freebsd.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+6. pfsense with bash and curl
+7. openSUSE [![](https://cdn.rawgit.com/Neilpang/letest/master/status/opensuse-latest.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+8. Alpine Linux [![](https://cdn.rawgit.com/Neilpang/letest/master/status/alpine-latest.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status) (with bash, curl. https://github.com/Neilpang/le/issues/94)
+9. Archlinux [![](https://cdn.rawgit.com/Neilpang/letest/master/status/base-archlinux.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+10. fedora [![](https://cdn.rawgit.com/Neilpang/letest/master/status/fedora-latest.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+11. Kali Linux [![](https://cdn.rawgit.com/Neilpang/letest/master/status/kalilinux-kali-linux-docker.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
+12. Oracle Linux [![](https://cdn.rawgit.com/Neilpang/letest/master/status/oraclelinux-latest.svg)](https://github.com/Neilpang/letest#here-are-the-latest-status)
 
+For all the build status, check our daily build project: 
+
+https://github.com/Neilpang/letest.git
 
 #Supported Mode
 1. Webroot mode
@@ -21,14 +34,30 @@ Do NOT require to be `root/sudoer`.
 3. Apache mode
 4. Dns mode
 
-#How to use
+#How to install
 
-1. Clone this project: https://github.com/Neilpang/le.git
+1. Install online:
 
-2. Install le:
 ```
+curl https://raw.githubusercontent.com/Neilpang/le/master/le.sh | INSTALLONLINE=1  bash
+
+```
+
+Or:
+```
+wget -O -  https://raw.githubusercontent.com/Neilpang/le/master/le.sh | INSTALLONLINE=1  bash
+
+```
+
+
+2. Or, Install from git:
+Clone this project: 
+```
+git clone https://github.com/Neilpang/le.git
+cd le
 ./le.sh install
 ```
+
 You don't have to be root then, although it is recommended.
 
 Which does 3 jobs:
@@ -39,7 +68,7 @@ All the certs will be placed in this folder.
 
 After install, you must close current terminal and reopen again to make the alias take effect.
 
-Ok,  you are ready to issue cert now.
+Ok, you are ready to issue cert now.
 Show help message:
 ```
 root@v1:~# le.sh
@@ -90,14 +119,24 @@ In all the cases, the issued cert will be placed in "~/.le/domain.com/"
 
  
 # Just issue a cert:
+Example 1:
+Only one domain:
+```
+le issue   /home/wwwroot/aa.com    aa.com 
+```
+
+Example 2:
+Multiple domains in the same cert:
+
 ```
 le issue   /home/wwwroot/aa.com    aa.com    www.aa.com,cp.aa.com
 ```
+
 First argument `/home/wwwroot/aa.com` is the web root folder, You must have `write` access to this folder.
 
 Second argument "aa.com" is the main domain you want to issue cert for.
 
-Third argument is the additional domain list you want to use.  Comma separated list,  which is Optional.
+Third argument is the additional domain list you want to use. Comma separated list,  which is Optional.
 
 You must point and bind all the domains to the same webroot dir:`/home/wwwroot/aa.com`
 
@@ -112,10 +151,10 @@ le installcert  aa.com /path/to/certfile/in/apache/nginx  /path/to/keyfile/in/ap
 
 Install the issued cert/key to the production apache or nginx path.
 
-The cert will be renewed every 80 days by default (which is configurable), Once the cert is renewed, the apache/nginx will be automatically reloaded by the command: ` service apache2 reload` or `service nginx reload`
+The cert will be renewed every 80 days by default (which is configurable), Once the cert is renewed, the apache/nginx will be automatically reloaded by the command: `service apache2 reload` or `service nginx reload`
 
 
-# Use Standalone server to issue cert( requires you be root/sudoer, or you have permission to listen tcp 80 port):
+# Use Standalone server to issue cert (requires you be root/sudoer, or you have permission to listen tcp 80 port):
 Same usage as all above,  just give `no` as the webroot.
 The tcp `80` port must be free to listen, otherwise you will be prompted to free the `80` port and try again.
 
@@ -123,7 +162,7 @@ The tcp `80` port must be free to listen, otherwise you will be prompted to free
 le issue    no    aa.com    www.aa.com,cp.aa.com
 ```
 
-# Use Apache mode(requires you be root/sudoer, since it is required to interact with apache server):
+# Use Apache mode (requires you be root/sudoer, since it is required to interact with apache server):
 If you are running a web server, apache or nginx, it is recommended to use the Webroot mode.
 Particularly,  if you are running an apache server, you can use apache mode instead. Which doesn't write any file to your web root folder.
 
@@ -166,16 +205,17 @@ Ok, it's finished.
 
 #Automatic dns api integeration
 
-If your dns provider supports api access,  we can use api to automatically issue certs.
+If your dns provider supports api access, we can use api to automatically issue certs.
 You don't have do anything manually.
 
 ###Currently we support:
 
-1. Cloudflare.com  api
-2. Dnspod.cn  api
-3. Cloudxns.com  api
+1. Cloudflare.com api
+2. Dnspod.cn api
+3. Cloudxns.com api
+4. AWS Route 53, see: https://github.com/Neilpang/le/issues/65
 
-More apis are comming soon....
+More apis are coming soon....
 
 If your dns provider is not in the supported list above, you can write your own script api easily.
 
@@ -186,18 +226,26 @@ For more details: [How to use dns api](dnsapi)
 LetsEncrypt now can issue ECDSA certificate.
 And we also support it.
 
-Just set key length to the `length` paramiter with a prefix "ec-".
+Just set the `length` parameter with a prefix `ec-`.
 For example:
+
+Single domain:
 ```
-le issue  /home/wwwroot/aa.com    aa.com  www.aa.com   ec-256
+le issue  /home/wwwroot/aa.com    aa.com   no      ec-256
 ```
+
+SAN multiple domains:
+```
+le issue  /home/wwwroot/aa.com    aa.com   www.aa.com,cp.aa.com    ec-256
+```
+
 Please look at the last parameter above.
 
 Valid values are:
 
 1. ec-256 (prime256v1,  "ECDSA P-256")
 2. ec-384 (secp384r1,   "ECDSA P-384")
-3. ec-521 (secp521r1,   "ECDSA P-521", not supported by letsencrypt yet.)
+3. ec-521 (secp521r1,   "ECDSA P-521", which is not supported by letsencrypt yet.)
 
 
 
